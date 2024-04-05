@@ -18,7 +18,7 @@ class RoleController extends Controller
 
         $roles = Role::paginate(15);
 
-        return view('users.roles.index', compact('roles'));
+        return view('pages.users.roles.index', compact('roles'));
     }
 
     public function show($id)
@@ -36,7 +36,7 @@ class RoleController extends Controller
 
         $permission_groups = PermissionGroup::all();                       
 
-        return view('users.roles.show',compact('role', 'permissions_ids', 'permission_groups'));
+        return view('pages.users.roles.show',compact('role', 'permissions_ids', 'permission_groups'));
     }
 
     public function create()
@@ -45,7 +45,7 @@ class RoleController extends Controller
 
         $permission_groups = PermissionGroup::all();
 
-        return view('users.roles.create', compact('permission_groups'));
+        return view('pages.users.roles.create', compact('permission_groups'));
     }
 
     public function store(StoreRoleRequest $request)
@@ -78,7 +78,7 @@ class RoleController extends Controller
 
         $permission_groups = PermissionGroup::all();                       
 
-        return view('users.roles.edit',compact('role', 'permission_groups', 'permissions_ids'));
+        return view('pages.users.roles.edit',compact('role', 'permission_groups', 'permissions_ids'));
     }
 
     public function update(UpdateRoleRequest $request,$id)

@@ -35,7 +35,7 @@ class RoleUserTablesSeeder extends Seeder
         $this->command->info('User dev created');
 
         User::create([
-            'email' => 'admin@admin.com', 
+            'email' => 'administrateur@administrateur.com', 
             'name'  => 'Administrator',
             'password' => bcrypt('admin'),
             'avatar'  => 'img/config/nopic.png',

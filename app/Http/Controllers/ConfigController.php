@@ -16,7 +16,7 @@ class ConfigController extends Controller
 
         $this->authorize('root-dev', $config);
            	
-    	return view('config.index',compact('config'));
+    	return view('pages.config.index',compact('config'));
     }
 
     public function update(ConfigRequest $request, $id)
@@ -28,8 +28,8 @@ class ConfigController extends Controller
     	if($request->file('caminho_img_login')){
     		$file = $request->file('caminho_img_login');
     		$ext  = $file->guessClientExtension();			
-            $path = $file->move("img/config", "logo.{$ext}");
-    		Config::where('id', 1)->update(['caminho_img_login' => "img/config/logo.{$ext}"]);
+            $path = $file->move("img/config", "userlogo.{$ext}");
+    		Config::where('id', 1)->update(['caminho_img_login' => "img/config/userlogo.{$ext}"]);
     	}
 
     	if($request->file('favicon')){

@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\AjustesDeInventarioController;
+use App\Http\Controllers\ArticulosController;
+use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\ComunasController;
+use App\Http\Controllers\ProveedoresController;
+use App\Http\Controllers\RecepcionesController;
+use App\Http\Controllers\VentasController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -41,46 +48,55 @@ Route::group(['namespace' => 'App\Http\Controllers'], function (){
 	Route::get('role/show/{id}', 'RoleController@show')->name('role.show');
 	Route::get('role/destroy/{id}', 'RoleController@destroy')->name('role.destroy');
 
+	 //proveedores
 
-	Route::get('articulo', 'ArticuloController@index')->name('articulo');
-	Route::get('articulo/create', 'ArticuloController@create')->name('articulo-create');
-	Route::post('articulo', 'ArticuloController@store')->name('articulo.store');
-	Route::get('articulo/{articulo}/pdf', 'ArticuloController@pdf')->name('articulo.pdf');
+	 Route::get('Proveedores', [ProveedoresController::class, 'index'])->name('proveedores.index');
+	 Route::get('Proveedores/Crear', [ProveedoresController::class, 'create'])->name('proveedores.create');
+	 Route::get('Proveedores/{id}', [ProveedoresController::class, 'show'])->name('proveedores.editar');
+	 Route::put('Proveedores/{proveedor}', [ProveedoresController::class, 'update'])->name('proveedores.update');
+	 Route::post('Proveedores', [ProveedoresController::class, 'store'])->name('proveedores.store');
+	 
+	//articulos
 
+	Route::get('Articulos', [ArticulosController::class, 'index'])->name('articulos.index');
+	Route::get('Articulos/Crear', [ArticulosController::class, 'create'])->name('articulos.create');
+	Route::get('Articulos/{id}', [ArticulosController::class, 'show'])->name('articulos.editar');
+	Route::get('Articulos/{id}/historial', [ArticulosController::class, 'getHistorialArticulo'])->name('articulos.historial');
+	Route::put('Articulos/{articulo}', [ArticulosController::class, 'update'])->name('articulos.update');
+	Route::post('Articulos', [ArticulosController::class, 'store'])->name('articulos.store');
 
-	Route::get('cliente', 'ClienteController@index')->name('cliente');
-	Route::get('cliente/create', 'ClienteController@create')->name('cliente-create');
-	Route::post('cliente', 'ClienteController@store')->name('cliente.store');
+	//recepciones
+	Route::get('Recepciones', [RecepcionesController::class, 'index'])->name('recepciones.index');
+	Route::get('Recepciones/Agregar', [RecepcionesController::class, 'create'])->name('recepciones.create');
+	Route::get('Recepciones/{id}', [RecepcionesController::class, 'view'])->name('recepciones.view');
+	Route::post('Recepciones/Agregar', [RecepcionesController::class, 'addArticulo'])->name('recepciones.addarticulo');
+	Route::post('Recepciones/Finalizar', [RecepcionesController::class, 'store'])->name('recepciones.store');
 
-    Route::get('ajax/purchases_providers', 'ProveedorController@ajax_providers')->name('ajax.providers');
-	Route::get('provider', 'ProveedorController@index')->name('provider');
-	Route::get('provider/create', 'ProveedorController@create')->name('provider-create');
-	Route::get('provider/{provider_id}/edit', 'ProveedorController@edit')->name('provider-create');
-	Route::post('provider', 'ProveedorController@store')->name('provider.store');
-	Route::put('provider/{provider_id}', 'ProveedorController@update')->name('provider.update');
-	Route::get('provider-xls', 'ProveedorController@export_xls')->name('provider.export-xls');
+	//ventas
+	Route::get('Ventas', [VentasController::class, 'index'])->name('ventas.index');
+	Route::get('Ventas/Agregar', [VentasController::class, 'create'])->name('ventas.create');
+	Route::get('Ventas/{id}', [VentasController::class, 'show'])->name('ventas.show');
+	Route::post('Ventas/Agregar', [VentasController::class, 'addArticulo'])->name('ventas.addarticulo');
+	Route::post('Ventas/Finalizar', [VentasController::class, 'store'])->name('ventas.store');
+	Route::post('Ventas/print', [VentasController::class, 'print'])->name('ticket.print');
+	Route::get('Ventas/print_pdf/{id}', [VentasController::class, 'print_pdf'])->name('ticket.pdf');
+	Route::get('ajax/clients', [VentasController::class, 'ajax_clients'])->name('ajax.clients');
 
+	//ventas
+	Route::get('AjustesDeInventario', [AjustesDeInventarioController::class, 'index'])->name('ajustesdeinventario.index');
+	Route::get('AjustesDeInventario/Agregar', [AjustesDeInventarioController::class, 'create'])->name('ajustesdeinventario.create');
+	Route::get('AjustesDeInventario/{id}', [AjustesDeInventarioController::class, 'view'])->name('ajustesdeinventario.view');
+	Route::post('AjustesDeInventario/Agregar', [AjustesDeInventarioController::class, 'addArticulo'])->name('ajustesdeinventario.addarticulo');
+	Route::post('AjustesDeInventario/Finalizar', [AjustesDeInventarioController::class, 'store'])->name('ajustesdeinventario.store');
 
-    Route::get('brand', 'BrandController@index')->name('brand');
-	Route::get('brand/create', 'BrandController@create')->name('brand-create');
-	Route::post('brand', 'BrandController@store')->name('brand.store');
+	// clientes
 
-	Route::get('nationalities', 'NationalitiesController@index')->name('nationalities');
-	Route::get('nationalities/create', 'NationalitiesController@create')->name('nationalities-create');
-	Route::post('nationalities', 'NationalitiesController@store')->name('nationalities.store');
-
-
-    Route::get('wish-purchase', 'WishPurchaseController@index')->name('wish-purchase');
-	Route::get('wish-purchase/create', 'WishPurchaseController@create')->name('wish-purchase-create');
-	Route::get('wish-purchase/{wish_purchase}', 'WishPurchaseController@show')->name('wish-purchase-create');
-	Route::get('wish-purchase/{wish_purchase}/charge-purchase-budgets', 'WishPurchaseController@charge_purchase_budgets')->name('wish-purchases.charge-budgets');
-    Route::post('wish-purchase-budgets/{wish_purchase}/charge-purchase-budgets', 'WishPurchaseController@charge_purchase_budgets_store')->name('wish-purchases.charge_purchase_budgets_store');
-	Route::get('wish-purchase/{wish_purchase}/confirm-purchase-budgets', 'WishPurchaseController@confirm_purchase_budgets')->name('wish-purchases.charge-budgets');
-    Route::get('wish-purchase-budgets/{purchase_budget}/confirm-purchase-budgets', 'WishPurchaseController@confirm_purchase_budgets_store')->name('wish-purchases.confirm_purchase_budgets_store');
-    Route::get('wish-purchase-budgets/{wish_purchase}/wish-purchase-budgets-approved', 'WishPurchaseController@wish_purchase_budgets_approved')->name('wish-purchases.budgets_approved');
-
-	Route::post('wish-purchase', 'WishPurchaseController@store')->name('wish-purchase.store');
-    Route::get('ajax/purchases_products_last', 'ArticuloController@ajax_purchases_last')->name('ajax.products-purchases-last');
-
-
+	Route::get('Clientes', [ClientesController::class, 'index'])->name('clientes.index');
+	Route::get('Clientes/Crear', [ClientesController::class, 'create'])->name('clientes.create');
+	Route::get('Clientes/{id}', [ClientesController::class, 'show'])->name('clientes.editar');
+	Route::put('Clientes/{cliente}', [ClientesController::class, 'update'])->name('clientes.update');
+	Route::post('Clientes', [ClientesController::class, 'store'])->name('clientes.store');
+	Route::post('/GetComunasPorRegion', [ComunasController::class, 'GetComunasPorRegion'])->name('getComunasPorRegion');
+		
+	
 });

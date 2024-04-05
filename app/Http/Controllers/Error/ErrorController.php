@@ -15,6 +15,6 @@ class ErrorController extends Controller
 
 	public function unauthorized()
 	{
-		return view('errors.unauthorized');
+		return view('pages.errors.unauthorized');
 	}
 }

@@ -27,7 +27,7 @@ class ProfileController extends Controller
 
 		$roles_ids = Role::rolesUser($user);
 
-		return view('profile.index',compact('user', 'roles', 'roles_ids'));
+		return view('pages.profile.index',compact('user', 'roles', 'roles_ids'));
 	}
 
 	public function updateProfile(UpdateProfileRequest $request,$id)
